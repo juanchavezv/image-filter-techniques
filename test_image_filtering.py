@@ -41,21 +41,23 @@ def parse_user_data():
     return args
 
 def median_filter(img,fk):
-    img_median = cv.medianBlur(img,fk)
+    img_median = cv2.medianBlur(img,fk)
     return img_median
 
 def average_filter(img,fk):
-    img_average = cv.blur(img,(fk,fk))
+    img_average = cv2.blur(img,(fk,fk))
     return img_average
 
 def gaussian_filter(img,fk):
-    img_gaussian = cv.GaussianBlur(img,(fk,fk),0)
+    img_gaussian = cv2.GaussianBlur(img,(fk,fk),0)
     return img_gaussian
 
 def pipeline():
     args = parse_user_data()
 
+    # Load the image
     img = cvl.read_image(args.input_image)
+    
     fil = args.input_filter
     fk = args.filter_kernel
 
@@ -63,11 +65,13 @@ def pipeline():
         out_img = median_filter(img,fk)
     elif fil == "average":
         out_img = average_filter(img,fk)
-    elif fil == "gaussian"
-        out_img = gaussian_filter(img,fk)
+    elif fil == "gaussian":
+        out_img = gaussian_filter(img,fk)  # Corrected to pass img instead of 0
 
-    visualise_image(img[0], 'Input Image')
-    visualise_image(out_img, fil)
+    # Display the original and filtered images
+    cvl.visualize_image(img, 'Input Image')
+    cvl.visualize_image(out_img, fil)
+
 
 if __name__ == '__main__':
     pipeline()
